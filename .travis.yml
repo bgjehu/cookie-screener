@@ -12,7 +12,7 @@ before_install:
 - test ! -d node_modules || npm rebuild
 script:
 - npm run-script lint
-- npm run-script test-travis
+- npm run-script test-cov
 deploy:
   provider: npm
   email: bgjehu@me.com
