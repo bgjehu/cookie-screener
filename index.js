@@ -31,9 +31,9 @@ const screenWithList = (req, list = [], isWhiteList) => {
     const screenWithString = (key, isWhiteList) => {
         if (isWhiteList) {
 
-            //  if white list, copy over
+            //  if white list, copy over if defined
             const value = cookies[key];
-            if (value !== undefined) {
+            if (typeof value === 'string') {
                 _cookies[key] = value;
             }
         } else {

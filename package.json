@@ -29,7 +29,6 @@
   "scripts": {
     "lint": "eslint --ext js .",
     "test": "mocha --reporter spec --bail --check-leaks spec.js",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks spec.js",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks spec.js"
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter spec --check-leaks spec.js"
   }
 }
