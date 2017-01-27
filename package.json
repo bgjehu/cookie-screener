@@ -1,5 +1,6 @@
 {
   "name": "cookie-screener",
+  "description": "cookie screening with options",
   "version": "1.0.0",
   "author": "Jay Hu <bgjehu@me.com>",
   "license": "MIT",
@@ -8,20 +9,8 @@
     "cookie",
     "middleware"
   ],
-  "files": [
-    "LICENSE",
-    "HISTORY.md",
-    "index.js"
-  ],
-  "engines": {
-    "node": ">= 6.9.4"
-  },
-  "description": "",
-  "scripts": {
-    "lint": "eslint --plugin markdown --ext js,md .",
-    "test": "mocha --reporter spec --bail --check-leaks spec.js",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks spec.js",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks spec.js"
+  "dependencies": {
+    "lodash": "4.17.4"
   },
   "devDependencies": {
     "chai": "3.5.0",
@@ -30,7 +19,18 @@
     "istanbul": "0.4.5",
     "mocha": "3.2.0"
   },
-  "dependencies": {
-    "lodash": "4.17.4"
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 6.9.4"
+  },
+  "scripts": {
+    "lint": "eslint --plugin markdown --ext js,md .",
+    "test": "mocha --reporter spec --bail --check-leaks spec.js",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks spec.js",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks spec.js"
   }
 }
