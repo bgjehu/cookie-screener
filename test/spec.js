@@ -1,4 +1,4 @@
-const cookieScreener = require('./index');
+const cookieScreener = require('./../index');
 const expect = require('chai').expect;
 
 
