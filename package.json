@@ -1,7 +1,7 @@
 {
   "name": "cookie-screener",
   "description": "cookie screening with options",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Jay Hu <bgjehu@me.com>",
   "license": "MIT",
   "repository": "bgjehu/cookie-screener",
@@ -14,11 +14,11 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "codacy-coverage": "^2.0.1",
+    "codacy-coverage": "2.0.1",
     "eslint": "3.14.1",
     "istanbul": "0.4.5",
     "mocha": "3.2.0",
-    "mocha-lcov-reporter": "^1.2.0"
+    "mocha-lcov-reporter": "1.2.0"
   },
   "files": [
     "LICENSE",

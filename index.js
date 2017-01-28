@@ -62,53 +62,6 @@ const screenWithList = (req, list = [], isWhiteList) => {
 };
 
 /**
- * Screen `req.cookies` with interface
- *
- * @param {Object} [req] A http request object
- * @param {Object} [_interface] it is {} by default
- * @return {Object} A cookies object with key value pairs
- * @private
- */
-
-const screenWithInterface = (req, _interface = {}) => {
-    const resolveValue = (req, key, value) => {
-        if (typeof value === 'string') {
-            if (value.length > 0) {
-                const head = value[0], rest = value.slice(-(value.length - 1));
-                if (head === '?') {
-                    return (req.query)[head === rest ? key : rest];
-                } else if (head === ':') {
-                    return (req.params)[head === rest ? key : rest];
-                } else if (head === '@') {
-                    return (req.body /* istanbul ignore next */ || {})[head === rest ? key : rest];
-                } else if (head === '#') {
-                    return (req.cookies /* istanbul ignore next */ || {})[head === rest ? key : rest];
-                } else if (head === '*') {
-                    return (process.env)[head === rest ? key : rest];
-                } else {
-                    return value;
-                }
-            } else {
-                return '';
-            }
-        } else if (typeof value === 'number') {
-            return value + '';
-        }
-        return undefined;
-    };
-
-    var key, value, cookies = {};
-    for(key in _interface) {
-        value = resolveValue(req, key, _interface[key]);
-        if (typeof value === 'string') {
-            cookies[key] = value;
-        }
-    }
-
-    return cookies;
-};
-
-/**
  * Screen `req.cookies` with options
  *
  * @param {Object} [options] it is {} by default
@@ -118,11 +71,11 @@ const screenWithInterface = (req, _interface = {}) => {
 
 const cookieScreener = (options = {}) => {
     return function (req, res, next) {
+
         /* istanbul ignore else: for doing nothing is perfectly fine in else clause */
         if (req.cookies) {
             const mode = options.mode;
             const list = options.list;
-            const _interface = options.interface;
 
             /* istanbul ignore else: for doing nothing is perfectly fine in else clause */
             if (mode) { //  mode is defined
@@ -133,8 +86,6 @@ const cookieScreener = (options = {}) => {
                     req.cookies = screenWithList(req, list, true);
                 } else if (mode_normalized === 'blacklist') {
                     req.cookies = screenWithList(req, list);
-                } else if (mode_normalized === 'interface') {
-                    req.cookies = screenWithInterface(req, _interface);
                 }
             }
         }

@@ -6,7 +6,7 @@
 [![Build Status][travis-image]][travis-url]
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/895ba3cda0954f019f1b6e85af51dd8a)](https://www.codacy.com/app/bgjehu/cookie-screener?utm_source=github.com&utm_medium=referral&utm_content=bgjehu/cookie-screener&utm_campaign=Badge_Coverage)
 
-Screen `req.cookies` with `whitelist`, `blacklist`, and `interface` mode
+Screen `req.cookies` with `whitelist` or `blacklist` mode
 
 ## Installation
 
@@ -17,66 +17,45 @@ $ npm install cookie-screener
 ## API
 
 ```js
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var cookieScreener = require('cookie-screener');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const cookieScreener = require('cookie-screener');
 
-var app = express();
+const app = express();
 app.use(cookieParser());
-app.use(cookieScreener());
+app.use(cookieScreener({
+    mode: 'whitelist', list: ['foo', 'bar']
+}));
 ```
 
 ### cookieScreener(options)
 
 #### options
-- `mode`: {String} `whitelist` | `blacklist` | `interface` 
-- `list`: {String|Array(String)} keys to whitelist or blacklist
-- `interface`: {Object}
-  - value is `null`, use value from `req.cookies` with same key
-  - value is `?`, use value from `req.query` with same key
-  - value is `?name`, use value from `req.query[name]`
-  - value is `:`, use value from `req.params` with same key
-  - value is `:name`, use value from `req.params[name]`
-  - value is `:num`, use value from `req.query[name]`
-  - value is `@`, use value from `req.body` with same key
-  - value is `@name`, use value from `req.body[name]`
-  - value is `*`, use value from `process.env` with same key
-  - value is `*name`, use value from `process.env[name]`
+- `mode`: {string} `'whitelist'` | `'blacklist'` 
+- `list`: {string | array<string>} keys to whitelist or blacklist
 
 ## Example
 
 ```js
-process.env.YEAR = '2017';
-var express = require('express');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var cookieScreener = require('cookie-screener');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const cookieScreener = require('./index');
 
-var app = express();
-app.use(bodyParser.json());
+const app = express();
 app.use(cookieParser());
-app.use('/:month', cookieScreener({
-    mode: 'interface',
-    interface: {
-        year: '*YEAR',
-        month: ':',
-        day: '?d',
-        sec: '#second',
-        id: '@ID'
-    }
+app.use(cookieScreener({
+    mode: 'whitelist', list: ['foo', 'bar']
 }));
 
-app.post('/:month', function (req, res) {
-    
-    //  curl http://127.0.0.1:8080/01?d=27 --cookie "second=59;" -H "Content-Type: application/json" -X POST -d '{"ID" : "ABCD"}'
-    
+app.post('/', function (req, res) {
+
+    //  curl http://127.0.0.1:8080 --cookie "foo=foo;bar=bar;zen=zne" -X POST
+
     console.log(JSON.stringify(req.cookies, null, 2));
+    res.send(req.cookies);
     // {
-    //     "year": "2017",
-    //     "month": "01",
-    //     "day": "27",
-    //     "sec": "59",
-    //     "id": "ABCD"
+    //     "foo": "foo",
+    //     "bar": "bar"
     // }
 });
 
