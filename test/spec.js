@@ -1,4 +1,5 @@
 const cookieScreener = require('./../index');
+const errMsg = require('../errorMessage');
 const expect = require('chai').expect;
 
 
@@ -16,6 +17,29 @@ describe('cookieScreener', function () {
         screener = undefined;
     });
 
+    it('should throw error if mode is not provided', function () {
+        //  no cookie in header
+        expect(()=>cookieScreener()).to.throw(errMsg.mode);
+    });
+
+    it('should throw error if mode is not valid', function () {
+        //  no cookie in header
+        expect(()=>cookieScreener({mode: 'white'})).to.throw(errMsg.mode);
+    });
+
+    it('should throw error if list is not provided', function () {
+        //  no cookie in header
+        expect(()=>cookieScreener({mode: 'whitelist'})).to.throw(errMsg.list);
+    });
+
+    it('should throw error if list is not valid', function () {
+        //  no cookie in header
+        expect(()=>cookieScreener({mode: 'whitelist', list: {}})).to.throw(errMsg.list);
+        expect(()=>cookieScreener({mode: 'whitelist', list: 1})).to.throw(errMsg.list);
+        expect(()=>cookieScreener({mode: 'whitelist', list: ''})).to.throw(errMsg.list);
+        expect(()=>cookieScreener({mode: 'whitelist', list: []})).to.throw(errMsg.list);
+    });
+
     it('should do nothing if `req.cookies` is undefined', function () {
         //  no cookie in header
         req = {};
@@ -28,17 +52,6 @@ describe('cookieScreener', function () {
 
         screener(req, {}, () => {
             expect(req.cookies).to.be.an('undefined');
-        });
-    });
-
-    it('should not screen if no option provided', function () {
-        screener = cookieScreener();
-        screener(req, {}, () => {
-            expect(req.cookies).to.deep.equal({
-                foo: 'foo',
-                bar: 'bar',
-                sid: 'sid'
-            });
         });
     });
 
